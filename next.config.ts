@@ -7,6 +7,30 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "bobppxienkpuihgsjgcy.supabase.co",
       },
+      {
+        protocol: "https",
+        hostname: "fimgs.net",
+      },
+      {
+        protocol: "http",
+        hostname: "armaf.com",
+      },
+      {
+        protocol: "https",
+        hostname: "armaf.com",
+      },
+      {
+        protocol: "http",
+        hostname: "hiddensamples.com",
+      },
+      {
+        protocol: "https",
+        hostname: "hiddensamples.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
 };
