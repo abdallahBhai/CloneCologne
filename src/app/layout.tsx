@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, EB_Garamond } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -27,7 +28,10 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} ${ebGaramond.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-background text-foreground">{children}</body>
+      <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
