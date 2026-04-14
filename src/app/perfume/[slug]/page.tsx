@@ -1,16 +1,11 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseClient } from "@/lib/supabase";
 import { Search, ShoppingBag, User, Droplet, Heart, TreePine, Star } from "lucide-react";
 import { isUuid, perfumeSlug } from "@/lib/perfumes";
 
 export const revalidate = 0;
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
@@ -25,6 +20,19 @@ export async function generateMetadata(
 
 export default async function PerfumePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const supabase = getSupabaseClient();
+
+  if (!supabase) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8 text-center">
+        <div className="max-w-md">
+          <h1 className="font-serif text-2xl mb-4">Configuration Required</h1>
+          <p className="text-foreground/70 mb-8">Please add your Supabase credentials to the Vercel project settings to view this page.</p>
+          <a href="/" className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold tracking-widest uppercase hover:bg-black/80 transition-colors">Return Home</a>
+        </div>
+      </div>
+    );
+  }
 
   const { data: perfumes } = await supabase.from("perfumes").select("*");
   const clonePerfume = perfumes?.find((p) => perfumeSlug(p.name) === slug);

@@ -1,11 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from "@/lib/supabase";
 import PerfumeCard from "./PerfumeCard";
 import { isUuid } from "@/lib/perfumes";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 // Disable static rendering for this component to see live updates
 export const revalidate = 0;
@@ -21,6 +16,17 @@ function seededNumber(seed: string, min: number, max: number) {
 }
 
 export default async function ProductGrid() {
+  const supabase = getSupabaseClient();
+
+  if (!supabase) {
+    return (
+      <div className="flex-1 w-full flex flex-col items-center justify-center p-12 bg-secondary/20 rounded-2xl text-center border border-dashed border-border/60 min-h-[400px]">
+        <h2 className="font-serif text-2xl mb-4">Configuration Required</h2>
+        <p className="max-w-md text-foreground/60 mb-8">Your database is not yet connected. Please add your Supabase credentials to the project environment variables.</p>
+      </div>
+    );
+  }
+
   const { data: perfumes, error } = await supabase
     .from("perfumes")
     .select("*")
