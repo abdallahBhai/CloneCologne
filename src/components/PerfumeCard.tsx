@@ -1,60 +1,76 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 interface PerfumeProps {
   id: string;
   name: string;
   brand: string;
-  cloneOf: string;
-  price: number;
-  originalPrice: number;
   imageUrl: string;
+  slug: string;
+  subtitle?: string;
+  isClone?: boolean;
 }
 
 export default function PerfumeCard({ perfume }: { perfume: PerfumeProps }) {
-  const savings = perfume.originalPrice - perfume.price;
-  
-  const slug = perfume.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-  
   return (
-    <Link href={`/perfume/${slug}`} className="group block">
-      <div className="bg-white rounded-[8px] p-6 shadow-soft transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full border border-transparent hover:border-border">
-        {/* Abstract placeholder instead of real image if not found */}
-        <div className="relative w-full aspect-square mb-6 bg-secondary/50 rounded-md overflow-hidden mix-blend-multiply">
-          {perfume.imageUrl ? (
-            <Image 
-              src={perfume.imageUrl} 
-              alt={perfume.name} 
-              fill
-              className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-             <div className="absolute inset-0 flex items-center justify-center text-tertiary/20">
-                <span className="font-serif text-4xl">Image</span>
-             </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="h-full"
+    >
+      <Link href={`/compare/${perfume.slug}`} className="group block h-full">
+        <div className="bg-white/50 backdrop-blur-sm rounded-none p-8 shadow-soft border border-border/50 h-full flex flex-col transition-colors group-hover:border-accent/30 group-hover:bg-white/80 relative">
+          {perfume.isClone && (
+            <div className="absolute top-4 left-4 z-10">
+              <span className="bg-accent/90 backdrop-blur-sm text-primary px-3 py-1 text-[8px] font-black uppercase tracking-[0.2em] shadow-glass">
+                Interpretation
+              </span>
+            </div>
           )}
-        </div>
+          <div className="relative w-full aspect-[4/5] mb-8 overflow-hidden bg-secondary/30">
+            {perfume.imageUrl ? (
+              <motion.div 
+                className="w-full h-full p-6"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                <Image 
+                  src={perfume.imageUrl} 
+                  alt={perfume.name} 
+                  fill
+                  className="object-contain"
+                />
+              </motion.div>
+            ) : (
+               <div className="absolute inset-0 flex items-center justify-center text-accent/20">
+                  <span className="font-serif italic text-2xl">Refining...</span>
+               </div>
+            )}
+            
+            <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </div>
 
-        <div className="space-y-3">
-          <div className="text-xs uppercase tracking-wider text-tertiary font-bold mb-1">
-            Clone of {perfume.cloneOf}
-          </div>
-          <h3 className="font-serif text-xl leading-tight text-foreground line-clamp-2">
-            {perfume.name}
-          </h3>
-          <p className="text-sm text-foreground/60">by {perfume.brand}</p>
-          
-          <div className="pt-4 mt-4 border-t border-border flex items-baseline justify-between">
-            <div>
-              <span className="text-2xl font-serif text-primary">${perfume.price}</span>
+          <div className="flex-1 flex flex-col">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold mb-2">
+              {perfume.brand}
             </div>
-            <div className="text-right">
-              <span className="block text-xs line-through text-foreground/40">Orig. ${perfume.originalPrice}</span>
-              <span className="text-xs font-bold text-tertiary">Save ${savings}</span>
-            </div>
+            <h3 className="font-serif text-xl lg:text-2xl leading-tight text-foreground mb-2 group-hover:text-accent transition-colors">
+              {perfume.name}
+            </h3>
+            {perfume.subtitle && (
+              <p className="text-sm italic text-foreground/50 border-t border-border/40 pt-4 mt-auto font-serif">
+                {perfume.subtitle}
+              </p>
+            )}
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 }
