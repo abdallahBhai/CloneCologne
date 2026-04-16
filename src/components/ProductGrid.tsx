@@ -80,10 +80,10 @@ export default async function ProductGrid() {
               id: perfume.id,
               name: perfume.name,
               brand: perfume.brand,
-              cloneOf: originalNameById.get(perfume.clone_of) || perfume.clone_of || "Original Fragrance",
-              price: seededNumber(perfume.id, 20, 69),
-              originalPrice: seededNumber(`${perfume.id}-original`, 150, 349),
-              imageUrl: perfume.clean_image_url || perfume.raw_image_url || ""
+              imageUrl: perfume.clean_image_url || perfume.raw_image_url || "",
+              slug: perfume.slug || perfume.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+              subtitle: originalNameById.get(perfume.clone_of) || perfume.clone_of || "Original Fragrance",
+              isClone: perfume.is_clone
             }} 
           />
         ))}
