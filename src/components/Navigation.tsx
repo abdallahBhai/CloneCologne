@@ -1,39 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, User } from "lucide-react";
 import SearchEngine from "@/components/SearchEngine";
 
 export default function Navigation() {
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-border/50">
-      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-background/40 backdrop-blur-md border-b border-border">
+      <div className="container mx-auto px-6 h-20 grid grid-cols-2 md:grid-cols-3 items-center">
         {/* Logo */}
-        <Link href="/" className="font-serif text-2xl font-bold tracking-tight">
+        <Link href="/" className="font-serif text-2xl font-bold tracking-tight justify-self-start">
           Clone<span className="italic font-normal text-accent">Cologne</span>
         </Link>
 
-        {/* Search Engine */}
-        <div className="flex-1 max-w-lg mx-12 hidden md:block">
-          <SearchEngine />
-        </div>
-
-        {/* Links */}
-        <nav className="flex items-center gap-8 text-xs font-bold tracking-[0.1em] uppercase">
-          <Link href="/" className="hover:text-accent transition-colors">Home</Link>
-          <Link href="/originals" className="hover:text-accent transition-colors">Originals</Link>
-          <Link href="/dupes" className="hover:text-accent transition-colors">Dupes</Link>
-          
-          <div className="flex items-center gap-4 ml-4">
-            <button className="p-2 hover:bg-secondary rounded-full transition-colors relative">
-               <User className="w-5 h-5 text-foreground" />
-            </button>
-            <button className="p-2 hover:bg-secondary rounded-full transition-colors relative">
-              <ShoppingBag className="w-5 h-5 text-foreground" />
-              <span className="absolute top-0 right-0 w-2 h-2 bg-accent rounded-full border-2 border-background"></span>
-            </button>
-          </div>
+        {/* Links (Center) */}
+        <nav className="hidden md:flex items-center justify-center gap-8 text-xs font-bold tracking-[0.1em] uppercase">
+          <Link href="/" className="hover:text-accent opacity-80 hover:opacity-100 transition-all">Home</Link>
+          <Link href="/originals" className="hover:text-accent opacity-80 hover:opacity-100 transition-all">Originals</Link>
+          <Link href="/dupes" className="hover:text-accent opacity-80 hover:opacity-100 transition-all">Dupes</Link>
+          <Link href="/collections" className="hover:text-accent opacity-80 hover:opacity-100 transition-all">Collections</Link>
         </nav>
+
+        {/* Search Engine and Sign In */}
+        <div className="flex items-center justify-end gap-4 justify-self-end">
+          <div className="hidden lg:block w-48 xl:w-64">
+            <SearchEngine />
+          </div>
+          <button className="text-xs font-bold tracking-[0.1em] uppercase px-5 py-2.5 border border-white/20 hover:bg-white/10 transition-colors backdrop-blur-md text-foreground">
+            Sign In
+          </button>
+        </div>
       </div>
     </header>
   );

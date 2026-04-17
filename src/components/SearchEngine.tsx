@@ -119,12 +119,12 @@ export default function SearchEngine() {
     <div className="relative w-full max-w-xl mx-auto z-50 group">
       {/* Search Input Container */}
       <div 
-        className={`relative flex items-center w-full h-12 rounded-full border transition-all duration-300 ${
-          isOpen ? "border-accent bg-white shadow-glass ring-1 ring-accent/20" : "border-border bg-white/50 backdrop-blur-sm"
+        className={`relative flex items-center w-full h-10 md:h-12 rounded-full border transition-all duration-300 ${
+          isOpen ? "border-accent bg-secondary shadow-glass ring-1 ring-accent/20" : "border-border bg-white/5 backdrop-blur-sm hover:bg-white/10"
         }`}
       >
         <div className="flex items-center justify-center w-12 text-foreground/40 group-focus-within:text-accent">
-          {isSearching ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}
+          {isSearching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
         </div>
         
         <input
@@ -138,7 +138,7 @@ export default function SearchEngine() {
           onKeyDown={handleKeyDown}
           onFocus={() => { if (results.length > 0) setIsOpen(true); }}
           placeholder="Search any perfume, brand, or note..."
-          className="peer h-full w-full outline-none text-sm text-foreground bg-transparent placeholder:text-foreground/30 font-sans"
+          className="peer h-full w-full outline-none text-xs md:text-sm text-foreground bg-transparent placeholder:text-foreground/30 font-sans"
         />
 
         <div className="flex items-center gap-2 pr-4">
@@ -164,7 +164,7 @@ export default function SearchEngine() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-14 left-0 w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-premium border border-border/50 overflow-hidden"
+            className="absolute lg:top-14 top-12 right-0 w-full md:w-[400px] lg:w-[500px] bg-secondary/95 backdrop-blur-md rounded-2xl shadow-glass border border-white/10 overflow-hidden"
             ref={dropdownRef}
           >
             {results.length > 0 ? (
