@@ -76,8 +76,10 @@ def process_fragrances(master_path, top1000_path):
     # 4. Output
     print("Generating output files...")
     
-    # Extract active dataset
-    working_active_df = master_df[master_df['Lifecycle_Status'] == 'Active']
+    # The working active database should be based on the top 1000 custom schema,
+    # as the user explicitly wants their custom fields (id, clone_of, raw_image_url etc) intact for the active DB.
+    top1000_df['Lifecycle_Status'] = 'Active'
+    working_active_df = top1000_df
     
     master_output = "tagged_master_database.csv"
     active_output = "working_active_1000.csv"
