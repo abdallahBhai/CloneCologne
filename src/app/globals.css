@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #0a0a0a; /* Deep, rich black */
-  --color-foreground: #f8fafc; /* High contrast off-white */
+  --color-background: #fdfcf0; /* Cream-50ish */
+  --color-foreground: #020617; /* Slate-950 */
   
-  --color-primary: #0a0a0a;    /* Deep Slate/Black */
-  --color-primary-foreground: #ffffff;
+  --color-primary: #020617;    /* Deep Slate */
+  --color-primary-foreground: #fdfcf0;
   
   --color-accent: #d4af37;     /* Gold Accent */
-  --color-secondary: #1a1a1a;  /* Subtle dark slate/black for secondary elements */
-  --color-secondary-foreground: #f8fafc;
+  --color-secondary: #f3efe0;  /* Muted Cream */
+  --color-secondary-foreground: #020617;
   
-  --color-border: rgba(255, 255, 255, 0.1); /* Subtle white borders */
+  --color-border: rgba(2, 6, 23, 0.1);
   
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
   
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
-  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  --shadow-soft: 0 4px 20px rgba(2, 6, 23, 0.05);
+  --shadow-glass: 0 8px 32px 0 rgba(2, 6, 23, 0.08);
 }
 
 body {

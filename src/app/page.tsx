@@ -3,8 +3,6 @@ import PerfumeCard from "@/components/PerfumeCard";
 import { getSupabaseClient } from "@/lib/supabase";
 import { ArrowRight, Star, TrendingUp, Sparkles } from "lucide-react";
 import Link from "next/link";
-import FloatingBottle from "@/components/FloatingBottle";
-
 
 async function getHomeData() {
   const supabase = getSupabaseClient();
@@ -49,56 +47,37 @@ export default async function Home() {
       <main className="flex-1 bg-background">
         
         {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex items-center pt-20 pb-12 overflow-hidden">
-          <div className="container mx-auto px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              
-              {/* Left Column (Text & CTAs) */}
-              <div className="flex flex-col items-start text-left">
-                <span className="text-accent text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4 block">
-                  Discover Your Perfect Fragrance
-                </span>
-                
-                <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-6 leading-[1.1] tracking-tight">
-                  Find Your <br/>
-                  <span className="italic font-normal text-accent">Signature</span> Scent
-                </h1>
-                
-                <p className="text-slate-400 text-base md:text-lg max-w-lg mb-8 font-sans leading-relaxed">
-                  Explore the world's finest fragrances. From timeless classics to hidden gems, find the perfect scent that tells your story.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mt-2">
-                  <Link href="/originals" className="w-full sm:w-auto px-8 py-4 bg-accent text-black font-bold uppercase tracking-widest text-xs hover:bg-yellow-400 transition-colors text-center">
-                    Explore Collection
-                  </Link>
-                  <Link href="/search" className="w-full sm:w-auto px-8 py-4 border border-white/20 text-white font-bold uppercase tracking-widest text-xs hover:bg-white/5 transition-colors text-center">
-                    Search Scents
-                  </Link>
-                </div>
-
-                {/* Trust Indicators */}
-                <div className="mt-16 flex items-center flex-wrap gap-4 md:gap-x-8 text-[11px] uppercase tracking-widest text-white/50 font-bold">
-                  <span className="flex items-center gap-2 text-accent">
-                    24k+ Fragrances
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-border"></span>
-                  <span className="flex items-center gap-2">
-                    10k+ Brands
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-border hidden sm:block"></span>
-                  <span className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-                    Trusted Reviews
-                  </span>
-                </div>
-              </div>
-
-              {/* Right Column (Visual) */}
-              <div className="w-full mt-12 lg:mt-0">
-                <FloatingBottle />
-              </div>
-
+        <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 z-0">
+             <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background z-10" />
+             <div className="absolute inset-0 bg-primary/20 z-10 mix-blend-multiply" />
+             <img 
+               src="https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=2000&auto=format&fit=crop" 
+               alt="Luxury Perfume"
+               className="w-full h-full object-cover scale-105"
+             />
+          </div>
+          
+          <div className="container mx-auto px-6 relative z-20 text-center">
+            <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl text-white mb-8 leading-tight tracking-tight">
+              Find Your <br/>
+              <span className="italic font-normal text-accent">Signature</span> Scent
+            </h1>
+            <p className="text-cream-50/80 text-lg md:text-2xl max-w-2xl mx-auto mb-12 font-sans tracking-wide">
+              Luxury profiles, accessible prices. Discover identical DNA matches to the world's most exclusive houses.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link href="/originals" className="px-10 py-4 bg-accent text-primary font-bold uppercase tracking-widest text-xs hover:bg-white transition-all shadow-glass">
+                Explore Originals
+              </Link>
+              <Link href="/dupes" className="px-10 py-4 border border-white/30 text-white backdrop-blur-md font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-all">
+                Browse Dupes
+              </Link>
             </div>
+          </div>
+          
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+             <div className="w-[1px] h-20 bg-gradient-to-b from-white/10 to-accent" />
           </div>
         </section>
 
