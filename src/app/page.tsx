@@ -48,15 +48,17 @@ export default async function Home() {
         
         {/* Hero Section */}
         <section className="relative w-full h-[600px] overflow-hidden flex items-center bg-[#ebe5e0]">
-          <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          <div className="absolute inset-0 z-0">
              <img 
-               src="https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=2000&auto=format&fit=crop" 
-               alt="Luxury Perfume"
-               className="w-full h-full object-cover opacity-[0.15] mix-blend-multiply"
+               src="/hero-bg.jpg" 
+               alt="Lattafa Asad Bourbon"
+               className="w-full h-full object-cover object-center md:object-[70%_center] lg:object-[80%_center]"
              />
+             {/* Subtle gradient to ensure text remains readable on smaller screens where image might overlap */}
+             <div className="absolute inset-0 bg-gradient-to-r from-[#ebe5e0] via-[#ebe5e0]/80 to-transparent w-full md:w-1/2 z-10"></div>
           </div>
           
-          <div className="relative z-10 w-full flex px-8 lg:px-[10%]">
+          <div className="relative z-20 w-full flex px-8 lg:px-[10%]">
             <div className="max-w-xl">
               <h2 className="text-4xl md:text-5xl font-normal leading-tight text-[#222222] mb-2 uppercase tracking-wide">
                 Find Your
