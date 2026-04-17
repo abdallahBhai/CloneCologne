@@ -23,11 +23,17 @@ def process_fragrances(master_path, top1000_path):
     # Load data
     print("Loading datasets into memory...")
     try:
-        # Assuming typical delimiter, update if necessary.
-        master_df = pd.read_csv(master_path, sep=',', on_bad_lines='skip', engine='python')
-    except Exception as e:
-        print("Retrying with semicolon delimiter...")
+        # Try default UTF-8
         master_df = pd.read_csv(master_path, sep=';', on_bad_lines='skip', engine='python')
+    except UnicodeDecodeError:
+        print("UTF-8 decode failed, retrying with latin1 encoding...")
+        master_df = pd.read_csv(master_path, sep=';', on_bad_lines='skip', engine='python', encoding='latin1')
+    except Exception as e:
+        print(f"Failed to read with semicolon: {e}. Trying comma...")
+        try:
+            master_df = pd.read_csv(master_path, sep=',', on_bad_lines='skip', engine='python')
+        except UnicodeDecodeError:
+            master_df = pd.read_csv(master_path, sep=',', on_bad_lines='skip', engine='python', encoding='latin1')
         
     top1000_df = pd.read_csv(top1000_path, sep=',', on_bad_lines='skip', engine='python')
 
@@ -35,32 +41,33 @@ def process_fragrances(master_path, top1000_path):
     print("Processing master file...")
     master_df['Lifecycle_Status'] = 'Archived'
 
-    # 3. Tag - Cross-reference using 'id' or 'name'
-    # Check for 'id' column, fallback to 'name'
-    join_col = 'id' if 'id' in top1000_df.columns and 'id' in master_df.columns else 'name'
-    if join_col not in top1000_df.columns:
-        # maybe the columns have other names
-        # Let's try matching on name/brand if possible
-        if 'name' in top1000_df.columns and 'name' in master_df.columns:
-            join_col = 'name'
-        elif 'Name' in top1000_df.columns and 'Name' in master_df.columns:
-            join_col = 'Name'
-            
-    print(f"Cross-referencing based on column matching: '{join_col}'")
+    # 3. Tag - Cross-reference using Perfume/name and Brand/brand
+    print("Cross-referencing based on Perfume/name and Brand/brand...")
     
-    if join_col not in master_df.columns or join_col not in top1000_df.columns:
-        print(f"Error: Could not find '{join_col}' in one or both files.")
-        print(f"Master columns: {master_df.columns.tolist()}")
-        print(f"Top 1000 columns: {top1000_df.columns.tolist()}")
+    if 'Perfume' not in master_df.columns or 'Brand' not in master_df.columns:
+        print(f"Error: Could not find 'Perfume' or 'Brand' in master dataset. Columns: {master_df.columns.tolist()}")
+        sys.exit(1)
+        
+    if 'name' not in top1000_df.columns or 'brand' not in top1000_df.columns:
+        print(f"Error: Could not find 'name' or 'brand' in top 1000 dataset. Columns: {top1000_df.columns.tolist()}")
         sys.exit(1)
 
-    # Extract active identifiers
-    active_ids = top1000_df[join_col].dropna().astype(str).str.strip().str.lower().unique()
+    # Clean function for robust string matching
+    def clean_str(s):
+        return str(s).strip().lower()
+
+    # Create temporary combined key for top 1000
+    top1000_names = top1000_df['name'].apply(clean_str)
+    top1000_brands = top1000_df['brand'].apply(clean_str)
+    active_keys = (top1000_names + "||" + top1000_brands).unique()
     
-    # Mark Active items
-    master_df_identifier = master_df[join_col].dropna().astype(str).str.strip().str.lower()
-    active_mask = master_df_identifier.isin(active_ids)
+    # Create temporary combined key for master
+    master_names = master_df['Perfume'].apply(clean_str)
+    master_brands = master_df['Brand'].apply(clean_str)
+    master_keys = master_names + "||" + master_brands
     
+    # Apply mask
+    active_mask = master_keys.isin(active_keys)
     master_df.loc[active_mask, 'Lifecycle_Status'] = 'Active'
 
     active_count = master_df[master_df['Lifecycle_Status'] == 'Active'].shape[0]
