@@ -1,39 +1,41 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, User } from "lucide-react";
+import { ShoppingBag, User, Heart } from "lucide-react";
 import SearchEngine from "@/components/SearchEngine";
 
 export default function Navigation() {
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-border/50">
-      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="font-serif text-2xl font-bold tracking-tight">
-          Clone<span className="italic font-normal text-accent">Cologne</span>
+    <header className="w-full bg-white py-6 px-4 md:px-8 flex items-center justify-between sticky top-0 z-50">
+      {/* Links (Left balance) */}
+      <div className="w-1/3 hidden md:flex items-center gap-8">
+         <Link href="/" className="text-xs font-medium tracking-wider uppercase text-[#555555] hover:text-black transition-colors">Home</Link>
+         <Link href="/originals" className="text-xs font-medium tracking-wider uppercase text-[#555555] hover:text-black transition-colors">Originals</Link>
+         <Link href="/dupes" className="text-xs font-medium tracking-wider uppercase text-[#555555] hover:text-black transition-colors">Dupes</Link>
+      </div>
+
+      {/* Center Logo */}
+      <div className="w-full md:w-1/3 flex justify-center">
+        <Link href="/" className="text-3xl md:text-4xl font-light tracking-widest text-[#222222] text-center uppercase">
+          CloneCologne
         </Link>
+      </div>
 
-        {/* Search Engine */}
-        <div className="flex-1 max-w-lg mx-12 hidden md:block">
-          <SearchEngine />
+      {/* Right Icons */}
+      <div className="w-auto md:w-1/3 flex justify-end items-center space-x-6 text-[#555555]">
+        <div className="w-48 hidden md:block">
+           <SearchEngine />
         </div>
-
-        {/* Links */}
-        <nav className="flex items-center gap-8 text-xs font-bold tracking-[0.1em] uppercase">
-          <Link href="/" className="hover:text-accent transition-colors">Home</Link>
-          <Link href="/originals" className="hover:text-accent transition-colors">Originals</Link>
-          <Link href="/dupes" className="hover:text-accent transition-colors">Dupes</Link>
-          
-          <div className="flex items-center gap-4 ml-4">
-            <button className="p-2 hover:bg-secondary rounded-full transition-colors relative">
-               <User className="w-5 h-5 text-foreground" />
-            </button>
-            <button className="p-2 hover:bg-secondary rounded-full transition-colors relative">
-              <ShoppingBag className="w-5 h-5 text-foreground" />
-              <span className="absolute top-0 right-0 w-2 h-2 bg-accent rounded-full border-2 border-background"></span>
-            </button>
-          </div>
-        </nav>
+        
+        <button aria-label="Favorites" className="hover:text-black transition-colors hidden sm:block">
+          <Heart className="h-6 w-6" strokeWidth={1.5} />
+        </button>
+        <button aria-label="Account" className="hover:text-black transition-colors hidden sm:block">
+          <User className="h-6 w-6" strokeWidth={1.5} />
+        </button>
+        <button aria-label="Cart" className="hover:text-black transition-colors relative">
+          <ShoppingBag className="h-6 w-6" strokeWidth={1.5} />
+        </button>
       </div>
     </header>
   );
